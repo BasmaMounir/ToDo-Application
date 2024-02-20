@@ -20,9 +20,8 @@ class MyApp extends StatelessWidget {
       darkTheme: MyTheme.darkTheme,
       initialRoute: SplashScreen.routeName,
       routes: {
-        SplashScreen.routeName: (_)=> const SplashScreen(),
-        HomeScreen.routeName: (_)=> const HomeScreen(),
-
+        SplashScreen.routeName: (_) => const SplashScreen(),
+        HomeScreen.routeName: (_) => HomeScreen(),
       },
     );
   }

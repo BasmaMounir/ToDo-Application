@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
         debugPrint("On End");
       },
       childWidget: const SizedBox(),
-      nextScreen: const HomeScreen(),
+      nextScreen: HomeScreen(),
     );
   }
 }
