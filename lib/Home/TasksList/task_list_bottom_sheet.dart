@@ -12,8 +12,8 @@ class TaskListBottomSheet extends StatefulWidget {
 class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
   DateTime selectedDate = DateTime.now();
   final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
-  final TextEditingController? titleController = TextEditingController();
-  final TextEditingController? descriptionontroller = TextEditingController();
+  String title = '';
+  String description = '';
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
             ),
             SizedBox(height: 20),
             TextFormField(
-              controller: titleController,
+              onChanged: (text) => title = text,
               validator: (value) => value!.isEmpty ? 'Title is empty' : null,
               decoration: InputDecoration(
                   hintText: 'enter your task title',
@@ -44,7 +44,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
             ),
             SizedBox(height: 20),
             TextFormField(
-              controller: descriptionontroller,
+              onChanged: (text) => description = text,
               validator: (value) =>
                   value!.isEmpty ? 'Description is empty' : null,
               decoration: InputDecoration(
@@ -78,10 +78,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                if (globalKey.currentState!.validate()) {
-                  titleController!.clear();
-                  descriptionontroller!.clear();
-                }
+                addTask();
               },
               child: Text(
                 'Add Task',
@@ -109,6 +106,13 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
       setState(() {
         selectedDate = chosenDate;
       });
+    }
+  }
+
+  void addTask() {
+    if (globalKey.currentState!.validate()) {
+      Navigator.pop(context);
+      // add task
     }
   }
 }

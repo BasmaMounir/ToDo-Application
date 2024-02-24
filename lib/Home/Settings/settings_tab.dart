@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_application/Home/Settings/title_drop_down_widget.dart';
 
 class SettingsTab extends StatelessWidget {
-  const SettingsTab({super.key});
+  SettingsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
+    return Column(
+      children: [
+        TitleAndDropDownWidget(
+            title: 'Languages', content: ['English', 'Arabic']),
+        TitleAndDropDownWidget(title: 'Theme', content: ['Dark', 'light']),
+      ],
     );
   }
 }
