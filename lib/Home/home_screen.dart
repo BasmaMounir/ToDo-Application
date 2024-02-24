@@ -24,31 +24,35 @@ class _HomeScreenState extends State<HomeScreen> {
           'To Do List',
           style: Theme.of(context)!.textTheme.titleLarge,
         ),
-        toolbarHeight: MediaQuery.of(context).size.height * 0.22,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.2,
       ),
       bottomNavigationBar: BottomAppBar(
         notchMargin: 8,
-        child: BottomNavigationBar(
-          onTap: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          currentIndex: selectedIndex,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.list), label: 'List'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: 'settinge'),
-          ],
+        child: SingleChildScrollView(
+          child: BottomNavigationBar(
+            onTap: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+            currentIndex: selectedIndex,
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.list), label: 'List'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings), label: 'settinge'),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: MyTheme.primaryColor,
         shape: StadiumBorder(
             side: BorderSide(color: MyTheme.wightColor, width: 5)),
         onPressed: () {
           return showAddTaskBottomSheet();
         },
-        child: const Icon(
+        child: Icon(
+          color: MyTheme.wightColor,
           Icons.add,
           size: 30,
         ),

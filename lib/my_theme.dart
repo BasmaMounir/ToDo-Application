@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyTheme{
+class MyTheme {
   static Color primaryColor = Color(0xff5D9CEC);
   static Color lightBody = Color(0xffDFECDB);
   static Color wightColor = Color(0xffFFFFFF);
@@ -12,7 +12,6 @@ class MyTheme{
   static Color redColor = Color(0xffEC4B4B);
   static Color darkBlackColor = Color(0xff141922);
   static Color darkBody = Color(0xff060E1E);
-
 
   static ThemeData lightTheme = ThemeData(
       primaryColor: primaryColor,
@@ -32,8 +31,8 @@ class MyTheme{
         backgroundColor: MyTheme.primaryColor,
         elevation: 0,
       ));
+
   static ThemeData darkTheme = ThemeData(
     primaryColor: primaryColor,
   );
-
 }

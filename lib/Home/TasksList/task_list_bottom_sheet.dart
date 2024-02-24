@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_application/ModelClass/task.dart';
+import 'package:to_do_application/firebase_utils.dart';
 import 'package:to_do_application/my_theme.dart';
 
 class TaskListBottomSheet extends StatefulWidget {
@@ -77,6 +79,8 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: MyTheme.primaryColor),
               onPressed: () {
                 addTask();
               },
@@ -111,7 +115,13 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
 
   void addTask() {
     if (globalKey.currentState!.validate()) {
-      Navigator.pop(context);
+      Task task =
+          Task(title: title, description: description, date: selectedDate);
+      FirebaseUtils.AddTaskToFireStore(task)
+          .timeout(Duration(milliseconds: 500), onTimeout: () {
+        print('task added successfully');
+        Navigator.pop(context);
+      });
       // add task
     }
   }

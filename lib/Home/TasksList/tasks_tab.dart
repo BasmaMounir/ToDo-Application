@@ -12,16 +12,18 @@ class TasksTab extends StatelessWidget {
       children: [
         Expanded(
           flex: 1,
-          child: EasyDateTimeLine(
-            initialDate: DateTime.now(),
-            onDateChange: (selectedDate) {
-              //`selectedDate` the new date selected.
-            },
-            activeColor: MyTheme.primaryColor,
-            dayProps: const EasyDayProps(
-              borderColor: Colors.black,
-              todayHighlightStyle: TodayHighlightStyle.withBackground,
-              todayHighlightColor: Color(0x5c5d9cec),
+          child: SingleChildScrollView(
+            child: EasyDateTimeLine(
+              initialDate: DateTime.now(),
+              onDateChange: (selectedDate) {
+                //`selectedDate` the new date selected.
+              },
+              activeColor: MyTheme.primaryColor,
+              dayProps: const EasyDayProps(
+                borderColor: Colors.black,
+                todayHighlightStyle: TodayHighlightStyle.withBackground,
+                todayHighlightColor: Color(0x5c5d9cec),
+              ),
             ),
           ),
         ),

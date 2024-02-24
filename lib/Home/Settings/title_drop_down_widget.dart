@@ -42,7 +42,10 @@ class _TitleAndDropDownWidgetState extends State<TitleAndDropDownWidget> {
             child: DropdownButton<String>(
               value: widget.selectedLanguage,
               isExpanded: true,
-              icon: Icon(Icons.arrow_drop_down),
+              icon: Icon(
+                Icons.arrow_drop_down,
+                color: MyTheme.primaryColor,
+              ),
               iconSize: 24,
               style: TextStyle(color: MyTheme.primaryColor, fontSize: 18),
               underline: Container(
