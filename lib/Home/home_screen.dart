@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:to_do_application/Home/Settings/settings_tab.dart';
 import 'package:to_do_application/Home/TasksList/task_list_bottom_sheet.dart';
 import 'package:to_do_application/Home/TasksList/tasks_tab.dart';
 import 'package:to_do_application/my_theme.dart';
-
 class HomeScreen extends StatefulWidget {
   static const String routeName = 'home screen';
 
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'To Do List',
+          AppLocalizations.of(context)!.appTitle,
           style: Theme.of(context)!.textTheme.titleLarge,
         ),
         toolbarHeight: MediaQuery.of(context).size.height * 0.2,
@@ -37,9 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             currentIndex: selectedIndex,
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.list), label: 'List'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.settings), label: 'settinge'),
+                  icon: Icon(Icons.list),
+                  label: AppLocalizations.of(context)!.listTab),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: AppLocalizations.of(context)!.settingsTab),
             ],
           ),
         ),

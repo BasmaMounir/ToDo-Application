@@ -1,0 +1,13 @@
+{
+"appTitle" : "To Do List",
+"listTab":"List",
+"settingsTab":"Settings",
+"language":"Language",
+"english":"English",
+"arabic":"Arabic",
+"theme":"Theme",
+"dark":"Dark",
+"light":"Light",
+"addTask" :"Add Task",
+"selectDate":"Select Date"
+}

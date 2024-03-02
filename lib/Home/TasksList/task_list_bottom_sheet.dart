@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_application/ModelClass/task.dart';
 import 'package:to_do_application/firebase_utils.dart';
@@ -28,7 +29,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
           children: [
             Text(
               textAlign: TextAlign.center,
-              'Add new Task',
+              AppLocalizations.of(context)!.addTask,
               style: Theme.of(context)!
                   .textTheme
                   .titleLarge!
@@ -57,7 +58,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
             ),
             SizedBox(height: 20),
             Text(
-              'Select time',
+              AppLocalizations.of(context)!.selectDate,
               style: Theme.of(context)!
                   .textTheme
                   .titleLarge!
@@ -85,7 +86,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
                 addTask();
               },
               child: Text(
-                'Add Task',
+                AppLocalizations.of(context)!.addTask,
                 style: Theme.of(context)!
                     .textTheme
                     .titleLarge!

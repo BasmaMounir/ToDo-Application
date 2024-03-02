@@ -1,0 +1,13 @@
+{
+"appTitle" : "قائمة عمل",
+"listTab":"المهمات",
+"settingsTab":"الاعدادات",
+"language":"اللغة",
+"english":"الانجليزية",
+"arabic":"العربية",
+"theme":"النمط",
+"dark":"ليلى",
+"light":"نهارى",
+"addTask" :"اضافة مهمه",
+"selectDate":"اختر الوقت"
+}
