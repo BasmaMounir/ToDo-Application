@@ -28,11 +28,28 @@ class MyTheme {
           selectedItemColor: primaryColor,
           unselectedItemColor: grayColor),
       appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: wightColor),
         backgroundColor: MyTheme.primaryColor,
         elevation: 0,
       ));
 
   static ThemeData darkTheme = ThemeData(
-    primaryColor: primaryColor,
-  );
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: darkBody,
+      textTheme: TextTheme(
+          titleLarge: GoogleFonts.poppins(
+              fontSize: 22, fontWeight: FontWeight.bold, color: wightColor)),
+      bottomAppBarTheme: BottomAppBarTheme(
+        shape: CircularNotchedRectangle(),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          selectedItemColor: primaryColor,
+          unselectedItemColor: grayColor),
+      appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: blackColor),
+        backgroundColor: MyTheme.primaryColor,
+        elevation: 0,
+      ));
 }

@@ -9,5 +9,14 @@
 "dark":"Dark",
 "light":"Light",
 "addTask" :"Add Task",
-"selectDate":"Select Date"
+"selectDate":"Select Date",
+"editTask":"Edit Task",
+"delete":"Delete",
+"done":"Done",
+"saveChange":"Save Change",
+"updateSuccessfully":"Update Successfully",
+"description":"enter your task description",
+"descriptionValidation":"Description is empty",
+"title":"enter your task title",
+"titleValidation":"Title is empty"
 }

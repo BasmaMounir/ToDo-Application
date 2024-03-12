@@ -4,7 +4,6 @@ import 'package:to_do_application/my_theme.dart';
 class TitleAndDropDownWidget extends StatefulWidget {
   String title;
   List<String> content;
-
   String selectedLanguage = '';
 
   TitleAndDropDownWidget(

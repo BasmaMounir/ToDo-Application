@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_application/Home/TasksList/edit_task.dart';
 import 'package:to_do_application/Home/home_screen.dart';
 import 'package:to_do_application/Providers/list_provider.dart';
 import 'package:to_do_application/Providers/settings-provider.dart';
@@ -19,6 +20,7 @@ void main() async {
           appId: 'mobilesdk_app_id',
           messagingSenderId: 'project_number',
           projectId: 'project_id'));
+
   await FirebaseFirestore.instance.disableNetwork();
   FirebaseFirestore.instance.settings =
       Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
@@ -26,7 +28,8 @@ void main() async {
   runApp(MultiProvider(
     child: MyApp(),
     providers: [
-      ChangeNotifierProvider(create: (_) => SettingsProvider()),
+      ChangeNotifierProvider(
+          create: (_) => SettingsProvider()..loadSettingData()),
       ChangeNotifierProvider(create: (_) => ListProvider()),
     ],
   ));
@@ -41,17 +44,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale('${provider.language}'),
+      locale: Locale('${provider.appLanguage}'),
       title: 'ToDo Application',
       debugShowCheckedModeBanner: false,
       theme: MyTheme.lightTheme,
       darkTheme: MyTheme.darkTheme,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
         SplashScreen.routeName: (_) => const SplashScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
         HomeScreen.routeName: (_) => HomeScreen(),
+        EditTask.routeName: (context) => EditTask(),
       },
     );
   }

@@ -20,7 +20,7 @@ class Task {
       'id': id as String,
       'title': title as String,
       'description': description as String,
-      'date': date!.millisecondsSinceEpoch as int,
+      'date': date!.millisecondsSinceEpoch,
       'isDone': isDone as bool
     };
   }
@@ -28,9 +28,12 @@ class Task {
   // map => obj
   Task.fromJson(Map<String, dynamic> jsonData)
       : this(
-            id: jsonData['id'],
+      id: jsonData['id'],
             title: jsonData['title'],
             description: jsonData['description'],
-            date: DateTime.fromMillisecondsSinceEpoch(jsonData['date']),
+            date: (jsonData['date'] is int)
+                ? DateTime.fromMillisecondsSinceEpoch(jsonData['date'])
+                : DateTime.fromMillisecondsSinceEpoch(
+                    jsonData['date'].millisecondsSinceEpoch),
             isDone: jsonData['isDone']);
 }

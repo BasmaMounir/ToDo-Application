@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_application/Home/Settings/settings_tab.dart';
 import 'package:to_do_application/Home/TasksList/task_list_bottom_sheet.dart';
 import 'package:to_do_application/Home/TasksList/tasks_tab.dart';
+import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/my_theme.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String routeName = 'home screen';
 
@@ -18,7 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingsProvider>(context);
+
     return Scaffold(
+      backgroundColor:
+          provider.isDarkMode() ? MyTheme.darkBody : MyTheme.lightBody,
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.appTitle,
@@ -27,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
         toolbarHeight: MediaQuery.of(context).size.height * 0.2,
       ),
       bottomNavigationBar: BottomAppBar(
+        color:
+            provider.isDarkMode() ? MyTheme.darkBlackColor : MyTheme.wightColor,
         notchMargin: 8,
         child: SingleChildScrollView(
           child: BottomNavigationBar(
@@ -50,7 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: MyTheme.primaryColor,
         shape: StadiumBorder(
-            side: BorderSide(color: MyTheme.wightColor, width: 5)),
+            side: BorderSide(
+                color: provider.isDarkMode()
+                    ? MyTheme.darkBlackColor
+                    : MyTheme.wightColor,
+                width: 5)),
         onPressed: () {
           return showAddTaskBottomSheet();
         },

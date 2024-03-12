@@ -18,4 +18,8 @@ class FirebaseUtils {
     task.id = taskDoc.id;
     return taskDoc.set(task);
   }
+
+  static Future<void> deleteTaskFromFireStore(Task task) {
+    return getTaskCollection().doc(task.id).delete();
+  }
 }

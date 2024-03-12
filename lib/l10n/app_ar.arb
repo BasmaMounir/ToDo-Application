@@ -9,5 +9,17 @@
 "dark":"ليلى",
 "light":"نهارى",
 "addTask" :"اضافة مهمه",
-"selectDate":"اختر الوقت"
+"selectDate":"اختر الوقت",
+"editTask":"تعديل المهمه",
+"delete":"حذف",
+"done":"تم",
+"saveChange":"حفظ التعديلات",
+"updateSuccessfully":"تم التعديل بنجاح",
+"description":"ادخل وصف المهمه",
+"descriptionValidation":"وصف المهمه فارغا",
+"title":"ادخل عنوانا للمهمه",
+"titleValidation":"عنوان المهمه فارغا"
+
+
+
 }

@@ -1,5 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:to_do_application/Home/home_screen.dart';
 import 'package:to_do_application/auth/custom_text_form_field.dart';
 import 'package:to_do_application/auth/login/login.dart';
 import 'package:to_do_application/auth/my_validation.dart';
@@ -12,15 +12,14 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController fullNameController = TextEditingController();
-
-  TextEditingController EmailController = TextEditingController();
-
-  TextEditingController PasswordController = TextEditingController();
-
+  TextEditingController fullNameController =
+      TextEditingController(text: 'basma');
+  TextEditingController EmailController =
+      TextEditingController(text: 'basma@gmail.com');
+  TextEditingController PasswordController =
+      TextEditingController(text: 'Beso@5620');
   TextEditingController PasswordConfirmationController =
-      TextEditingController();
-
+      TextEditingController(text: 'Beso@5620');
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -118,10 +117,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ));
   }
 
-  void register() {
+  void register() async {
     if (formKey.currentState?.validate() == false) {
       return;
     }
-    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: EmailController.text.trim(),
+        password: PasswordController.text.trim(),
+      );
+      print('successfully register');
+      print('User id ==> ${credential.user?.uid}');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+    //Navigator.pushNamed(context, HomeScreen.routeName);
   }
 }

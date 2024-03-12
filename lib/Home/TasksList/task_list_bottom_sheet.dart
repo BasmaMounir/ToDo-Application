@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_application/Home/Dialogues/dialog_utils.dart';
 import 'package:to_do_application/ModelClass/task.dart';
+import 'package:to_do_application/Providers/list_provider.dart';
+import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/firebase_utils.dart';
 import 'package:to_do_application/my_theme.dart';
 
@@ -17,30 +21,44 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
   final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   String title = '';
   String description = '';
+  late ListProvider listProvider;
 
   @override
   Widget build(BuildContext context) {
+    listProvider = Provider.of<ListProvider>(context);
+    var provider = Provider.of<SettingsProvider>(context);
     return Form(
       key: globalKey,
       child: Container(
-        margin: EdgeInsets.all(25),
+        color:
+            provider.isDarkMode() ? MyTheme.darkBlackColor : MyTheme.wightColor,
+        padding: EdgeInsets.all(25),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               textAlign: TextAlign.center,
               AppLocalizations.of(context)!.addTask,
-              style: Theme.of(context)!
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(fontSize: 18, color: MyTheme.blackColor),
+              style: Theme.of(context)!.textTheme.titleLarge!.copyWith(
+                    fontSize: 18,
+                    color: provider.isDarkMode()
+                        ? MyTheme.wightColor
+                        : MyTheme.blackColor,
+                  ),
             ),
             SizedBox(height: 20),
             TextFormField(
               onChanged: (text) => title = text,
-              validator: (value) => value!.isEmpty ? 'Title is empty' : null,
+              validator: (value) => value!.isEmpty
+                  ? AppLocalizations.of(context)!.titleValidation
+                  : null,
               decoration: InputDecoration(
-                  hintText: 'enter your task title',
+                  hintText: AppLocalizations.of(context)!.title,
+                  hintStyle: TextStyle(
+                    color: provider.isDarkMode()
+                        ? MyTheme.wightColor
+                        : MyTheme.blackColor,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   )),
@@ -48,10 +66,16 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
             SizedBox(height: 20),
             TextFormField(
               onChanged: (text) => description = text,
-              validator: (value) =>
-                  value!.isEmpty ? 'Description is empty' : null,
+              validator: (value) => value!.isEmpty
+                  ? AppLocalizations.of(context)!.descriptionValidation
+                  : null,
               decoration: InputDecoration(
-                  hintText: 'enter your task description',
+                  hintText: AppLocalizations.of(context)!.description,
+                  hintStyle: TextStyle(
+                    color: provider.isDarkMode()
+                        ? MyTheme.wightColor
+                        : MyTheme.blackColor,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   )),
@@ -59,10 +83,12 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
             SizedBox(height: 20),
             Text(
               AppLocalizations.of(context)!.selectDate,
-              style: Theme.of(context)!
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(fontSize: 18, color: MyTheme.blackColor),
+              style: Theme.of(context)!.textTheme.titleLarge!.copyWith(
+                    fontSize: 18,
+                    color: provider.isDarkMode()
+                        ? MyTheme.wightColor
+                        : MyTheme.blackColor,
+                  ),
             ),
             SizedBox(height: 20),
             InkWell(
@@ -74,7 +100,9 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
                 '${DateFormat('dd / MM / yyyy').format(selectedDate)}',
                 style: Theme.of(context)!.textTheme.titleLarge!.copyWith(
                     fontSize: 15,
-                    color: MyTheme.deepGrayColor,
+                    color: provider.isDarkMode()
+                        ? MyTheme.grayColor
+                        : MyTheme.deepGrayColor,
                     fontWeight: FontWeight.w300),
               ),
             ),
@@ -116,11 +144,13 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
 
   void addTask() {
     if (globalKey.currentState!.validate()) {
+      DialogUtils.Loading(context);
       Task task =
           Task(title: title, description: description, date: selectedDate);
       FirebaseUtils.AddTaskToFireStore(task)
           .timeout(Duration(milliseconds: 500), onTimeout: () {
-        print('task added successfully');
+        listProvider.getAllTasksFromFireStore();
+        DialogUtils.hideDialog(context);
         Navigator.pop(context);
       });
       // add task
