@@ -33,8 +33,8 @@ class _SettingsTabState extends State<SettingsTab> {
             showLanguageBottomSheet();
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            margin: EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: provider.isDarkMode()
                   ? MyTheme.darkBlackColor
@@ -62,7 +62,7 @@ class _SettingsTabState extends State<SettingsTab> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         Text(
@@ -77,8 +77,8 @@ class _SettingsTabState extends State<SettingsTab> {
             showThemeBottomSheet();
           },
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            margin: EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: provider.isDarkMode()
                   ? MyTheme.darkBlackColor
@@ -122,7 +122,7 @@ class _SettingsTabState extends State<SettingsTab> {
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          return ThemeBottomSheet();
+          return const ThemeBottomSheet();
         });
   }
 }

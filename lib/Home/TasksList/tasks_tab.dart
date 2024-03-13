@@ -9,7 +9,7 @@ import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/my_theme.dart';
 
 class TasksTab extends StatefulWidget {
-  TasksTab({super.key});
+  const TasksTab({super.key});
 
   @override
   State<TasksTab> createState() => _TasksTabState();
@@ -35,7 +35,7 @@ class _TasksTabState extends State<TasksTab> {
               listProvider.cahngeDate(selectedDate);
             },
             activeColor: MyTheme.primaryColor,
-            headerProps: EasyHeaderProps(
+                headerProps: const EasyHeaderProps(
               dateFormatter: DateFormatter.monthOnly(),
             ),
             dayProps: EasyDayProps(

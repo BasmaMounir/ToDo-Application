@@ -13,7 +13,7 @@ import '../../Providers/list_provider.dart';
 class EditTask extends StatefulWidget {
   static const String routeName = 'Edit task';
 
-  EditTask({super.key});
+  const EditTask({super.key});
 
   @override
   State<EditTask> createState() => _EditTaskState();
@@ -56,7 +56,7 @@ class _EditTaskState extends State<EditTask> {
               color: provider.isDarkMode()
                   ? MyTheme.darkBlackColor
                   : MyTheme.wightColor,
-              padding: EdgeInsets.all(25),
+              padding: const EdgeInsets.all(25),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -117,8 +117,8 @@ class _EditTaskState extends State<EditTask> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: MyTheme.primaryColor),
                     onPressed: () {
-                      updateTask(task).timeout(Duration(milliseconds: 100),
-                          onTimeout: () {
+                      updateTask(task).timeout(
+                          const Duration(milliseconds: 100), onTimeout: () {
                         Navigator.pop(context);
                         listProvider.getAllTasksFromFireStore();
                         DialogUtils.showMessage(context,

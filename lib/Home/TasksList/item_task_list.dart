@@ -26,17 +26,17 @@ class _ItemTaskListState extends State<ItemTaskList> {
     listProvider = Provider.of<ListProvider>(context);
     var provider = Provider.of<SettingsProvider>(context);
     return Container(
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       child: Slidable(
         startActionPane: ActionPane(
           extentRatio: 0.3,
-          motion: ScrollMotion(),
+          motion: const ScrollMotion(),
           children: [
             SlidableAction(
               borderRadius: BorderRadius.circular(20),
               onPressed: (context) {
                 FirebaseUtils.deleteTaskFromFireStore(widget.tasks)
-                    .timeout(Duration(milliseconds: 500), onTimeout: () {
+                    .timeout(const Duration(milliseconds: 500), onTimeout: () {
                   listProvider.getAllTasksFromFireStore();
                 });
               },
@@ -48,7 +48,7 @@ class _ItemTaskListState extends State<ItemTaskList> {
           ],
         ),
         child: Container(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
               color: provider.isDarkMode()
                   ? MyTheme.darkBlackColor
@@ -66,7 +66,7 @@ class _ItemTaskListState extends State<ItemTaskList> {
                         : MyTheme.primaryColor,
                     borderRadius: BorderRadius.circular(25)),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
@@ -108,13 +108,13 @@ class _ItemTaskListState extends State<ItemTaskList> {
                   : InkWell(
                       onTap: () {
                         updateTask(widget.tasks).timeout(
-                            Duration(milliseconds: 500), onTimeout: () {
+                            const Duration(milliseconds: 500), onTimeout: () {
                           listProvider.getAllTasksFromFireStore();
                         });
                       },
                       child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
                         decoration: BoxDecoration(
                             color: MyTheme.primaryColor,
                             borderRadius: BorderRadius.circular(16)),

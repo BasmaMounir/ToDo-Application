@@ -16,7 +16,7 @@ class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
   Widget build(BuildContext context) {
     var provider = Provider.of<SettingsProvider>(context);
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       height: MediaQuery.of(context).copyWith().size.height * 0.2,
       color:
           provider.isDarkMode() ? MyTheme.darkBlackColor : MyTheme.wightColor,
@@ -31,7 +31,7 @@ class _ThemeBottomSheetState extends State<ThemeBottomSheet> {
               child: provider.isDarkMode()
                   ? unselectedItem(AppLocalizations.of(context)!.light)
                   : selectedItem(AppLocalizations.of(context)!.light)),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           InkWell(

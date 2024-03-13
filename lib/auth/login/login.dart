@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_application/Home/home_screen.dart';
+import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/auth/custom_text_form_field.dart';
 import 'package:to_do_application/auth/my_validation.dart';
 import 'package:to_do_application/auth/register/register_screen.dart';
+import 'package:to_do_application/my_theme.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "login";
@@ -20,9 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingsProvider>(context);
     return Container(
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: provider.isDarkMode() ? MyTheme.darkBody : MyTheme.lightBody,
             image: DecorationImage(
               image: AssetImage("assets/images/background.png"),
               fit: BoxFit.fill,

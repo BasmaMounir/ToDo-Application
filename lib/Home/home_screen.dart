@@ -10,7 +10,7 @@ import 'package:to_do_application/my_theme.dart';
 class HomeScreen extends StatefulWidget {
   static const String routeName = 'home screen';
 
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -47,10 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
             currentIndex: selectedIndex,
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.list),
+                  icon: const Icon(Icons.list),
                   label: AppLocalizations.of(context)!.listTab),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
+                  icon: const Icon(Icons.settings),
                   label: AppLocalizations.of(context)!.settingsTab),
             ],
           ),
@@ -80,9 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void showAddTaskBottomSheet() {
     showModalBottomSheet(
+        isDismissible: false,
         context: context,
         builder: (buildContext) {
-          return TaskListBottomSheet();
+          return const TaskListBottomSheet();
         });
   }
 }

@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_application/auth/custom_text_form_field.dart';
 import 'package:to_do_application/auth/login/login.dart';
 import 'package:to_do_application/auth/my_validation.dart';
+import '../../Providers/settings-provider.dart';
+import '../../my_theme.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "register";
@@ -12,21 +15,20 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController fullNameController =
-      TextEditingController(text: 'basma');
-  TextEditingController EmailController =
-      TextEditingController(text: 'basma@gmail.com');
-  TextEditingController PasswordController =
-      TextEditingController(text: 'Beso@5620');
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController EmailController = TextEditingController();
+  TextEditingController PasswordController = TextEditingController();
   TextEditingController PasswordConfirmationController =
-      TextEditingController(text: 'Beso@5620');
+      TextEditingController();
   var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingsProvider>(context);
+
     return Container(
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: provider.isDarkMode() ? MyTheme.darkBody : MyTheme.lightBody,
             image: DecorationImage(
               image: AssetImage("assets/images/background.png"),
               fit: BoxFit.fill,

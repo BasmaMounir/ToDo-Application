@@ -15,7 +15,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
     var provider = Provider.of<SettingsProvider>(context);
     return Container(
       height: MediaQuery.of(context).copyWith().size.height * 0.2,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       color:
           provider.isDarkMode() ? MyTheme.darkBlackColor : MyTheme.wightColor,
       child: Column(
@@ -29,7 +29,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
               child: provider.appLanguage == 'en'
                   ? selectedItem(AppLocalizations.of(context)!.english)
                   : unselectedItem(AppLocalizations.of(context)!.english)),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           InkWell(

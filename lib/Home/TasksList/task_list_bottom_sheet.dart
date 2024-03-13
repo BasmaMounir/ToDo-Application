@@ -32,7 +32,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
       child: Container(
         color:
             provider.isDarkMode() ? MyTheme.darkBlackColor : MyTheme.wightColor,
-        padding: EdgeInsets.all(25),
+        padding: const EdgeInsets.all(25),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -46,8 +46,13 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
                         : MyTheme.blackColor,
                   ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
+              style: TextStyle(
+                color: provider.isDarkMode()
+                    ? MyTheme.wightColor
+                    : MyTheme.blackColor,
+              ),
               onChanged: (text) => title = text,
               validator: (value) => value!.isEmpty
                   ? AppLocalizations.of(context)!.titleValidation
@@ -63,8 +68,13 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
                     borderRadius: BorderRadius.circular(10.0),
                   )),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
+              style: TextStyle(
+                color: provider.isDarkMode()
+                    ? MyTheme.wightColor
+                    : MyTheme.blackColor,
+              ),
               onChanged: (text) => description = text,
               validator: (value) => value!.isEmpty
                   ? AppLocalizations.of(context)!.descriptionValidation
@@ -80,7 +90,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
                     borderRadius: BorderRadius.circular(10.0),
                   )),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               AppLocalizations.of(context)!.selectDate,
               style: Theme.of(context)!.textTheme.titleLarge!.copyWith(
@@ -90,7 +100,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
                         : MyTheme.blackColor,
                   ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             InkWell(
               onTap: () {
                 return showCalender();
@@ -106,7 +116,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
                     fontWeight: FontWeight.w300),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: MyTheme.primaryColor),
@@ -132,7 +142,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 
     if (chosenDate != null) {
@@ -148,7 +158,7 @@ class _TaskListBottomSheetState extends State<TaskListBottomSheet> {
       Task task =
           Task(title: title, description: description, date: selectedDate);
       FirebaseUtils.AddTaskToFireStore(task)
-          .timeout(Duration(milliseconds: 500), onTimeout: () {
+          .timeout(const Duration(milliseconds: 500), onTimeout: () {
         listProvider.getAllTasksFromFireStore();
         DialogUtils.hideDialog(context);
         Navigator.pop(context);
