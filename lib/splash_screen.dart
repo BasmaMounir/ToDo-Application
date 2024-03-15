@@ -1,8 +1,8 @@
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_application/Home/home_screen.dart';
 import 'package:to_do_application/Providers/settings-provider.dart';
+import 'package:to_do_application/auth/login/login.dart';
 
 class SplashScreen extends StatelessWidget {
   static const String routeName = 'splash screen';
@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
         debugPrint("On End");
       },
       childWidget: const SizedBox(),
-      nextScreen: HomeScreen(),
+      nextScreen: LoginScreen(),
     );
   }
 }

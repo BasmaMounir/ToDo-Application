@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_application/Home/TasksList/edit_task.dart';
 import 'package:to_do_application/Home/home_screen.dart';
+import 'package:to_do_application/Providers/authProviders.dart';
 import 'package:to_do_application/Providers/list_provider.dart';
 import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/auth/login/login.dart';
@@ -16,14 +16,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
-          apiKey: 'Your API key',
-          appId: 'mobilesdk_app_id',
+          apiKey: 'AIzaSyDi5kVu6TdZXIK57kNBakMdCjxZx_ucdBk',
+          appId: 'todo-app-889a8',
           messagingSenderId: 'project_number',
-          projectId: 'project_id'));
+          projectId: 'todo-app-889a8'));
 
-  await FirebaseFirestore.instance.disableNetwork();
-  FirebaseFirestore.instance.settings =
-      Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+  // await FirebaseFirestore.instance.disableNetwork();
+  // FirebaseFirestore.instance.settings =
+  //     Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
 
   runApp(MultiProvider(
     child: MyApp(),
@@ -31,6 +31,7 @@ void main() async {
       ChangeNotifierProvider(
           create: (_) => SettingsProvider()..loadSettingData()),
       ChangeNotifierProvider(create: (_) => ListProvider()),
+      ChangeNotifierProvider(create: (_) => AuthProviders()),
     ],
   ));
 }
@@ -51,10 +52,10 @@ class MyApp extends StatelessWidget {
       darkTheme: MyTheme.darkTheme,
       initialRoute: SplashScreen.routeName,
       routes: {
-        SplashScreen.routeName: (_) => const SplashScreen(),
+        SplashScreen.routeName: (context) => const SplashScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        HomeScreen.routeName: (_) => HomeScreen(),
+        HomeScreen.routeName: (context) => HomeScreen(),
         EditTask.routeName: (context) => EditTask(),
       },
     );

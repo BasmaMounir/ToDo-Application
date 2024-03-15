@@ -1,11 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_application/Home/Dialogues/dialog_utils.dart';
 import 'package:to_do_application/Home/home_screen.dart';
 import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/auth/custom_text_form_field.dart';
 import 'package:to_do_application/auth/my_validation.dart';
 import 'package:to_do_application/auth/register/register_screen.dart';
+import 'package:to_do_application/firebase_utils.dart';
 import 'package:to_do_application/my_theme.dart';
+
+import '../../Providers/authProviders.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "login";
@@ -97,10 +102,33 @@ class _LoginScreenState extends State<LoginScreen> {
         ));
   }
 
-  void login() {
-    if (formKey.currentState?.validate() == false) {
-      return;
+  void login() async {
+    if (formKey.currentState?.validate() == true) {
+      try {
+        DialogUtils.Loading(context);
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: EmailController.text.trim(),
+                password: PasswordController.text.trim());
+        var user = await FirebaseUtils.ReadUserFromFireStore(
+            credential.user?.uid ?? '');
+        var authProvider = Provider.of<AuthProviders>(context, listen: false);
+        authProvider.updateUser(user);
+        if (user == null) return;
+        DialogUtils.hideDialog(context);
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          DialogUtils.hideDialog(context);
+          DialogUtils.showMessage(context,
+              message: 'No user found for that email');
+        } else if (e.code == 'wrong-password') {
+          DialogUtils.hideDialog(context);
+          DialogUtils.showMessage(context,
+              message: 'Wrong password provided for that user');
+        }
+      }
     }
-    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    return;
   }
 }

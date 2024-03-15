@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:to_do_application/Home/TasksList/edit_task.dart';
 import 'package:to_do_application/Home/TasksList/item_task_list.dart';
 import 'package:to_do_application/ModelClass/task.dart';
+import 'package:to_do_application/Providers/authProviders.dart';
 import 'package:to_do_application/Providers/list_provider.dart';
 import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/my_theme.dart';
@@ -19,8 +20,9 @@ class _TasksTabState extends State<TasksTab> {
   @override
   Widget build(BuildContext context) {
     var listProvider = Provider.of<ListProvider>(context);
+    var authProvider = Provider.of<AuthProviders>(context);
     if (listProvider.tasksList.isEmpty) {
-      listProvider.getAllTasksFromFireStore();
+      listProvider.getAllTasksFromFireStore(authProvider.currentUser!.id!);
     }
     var provider = Provider.of<SettingsProvider>(context);
     return Column(
@@ -32,7 +34,8 @@ class _TasksTabState extends State<TasksTab> {
             locale: provider.appLanguage,
             initialDate: listProvider.selectedDate,
             onDateChange: (selectedDate) {
-              listProvider.cahngeDate(selectedDate);
+              listProvider.cahngeDate(
+                  selectedDate, authProvider.currentUser!.id!);
             },
             activeColor: MyTheme.primaryColor,
                 headerProps: const EasyHeaderProps(

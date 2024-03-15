@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_application/Home/Dialogues/dialog_utils.dart';
+import 'package:to_do_application/Providers/authProviders.dart';
 import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/firebase_utils.dart';
 import 'package:to_do_application/my_theme.dart';
@@ -24,6 +25,7 @@ class _EditTaskState extends State<EditTask> {
   TextEditingController? descriptionController;
   late Task task;
   late ListProvider listProvider;
+  late var authProvider;
   DateTime selectedDate = DateTime.now();
 
   @override
@@ -37,6 +39,7 @@ class _EditTaskState extends State<EditTask> {
         date: args.date,
         id: args.id);
     listProvider = Provider.of<ListProvider>(context);
+    authProvider = Provider.of<AuthProviders>(context);
     var provider = Provider.of<SettingsProvider>(context);
     return Scaffold(
         backgroundColor:
@@ -117,13 +120,19 @@ class _EditTaskState extends State<EditTask> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: MyTheme.primaryColor),
                     onPressed: () {
-                      updateTask(task).timeout(
-                          const Duration(milliseconds: 100), onTimeout: () {
+                      updateTask(task).then((value) {
                         Navigator.pop(context);
-                        listProvider.getAllTasksFromFireStore();
+                        listProvider.getAllTasksFromFireStore(
+                            authProvider.currentUser!.id!);
                         DialogUtils.showMessage(context,
-                            message: AppLocalizations.of(context)!
-                                .updateSuccessfully);
+                            message: 'Task Added Successfully');
+                      }).timeout(const Duration(milliseconds: 100),
+                          onTimeout: () {
+                        Navigator.pop(context);
+                        listProvider.getAllTasksFromFireStore(
+                            authProvider.currentUser!.id!);
+                        DialogUtils.showMessage(context,
+                            message: 'Task Added Successfully');
                       });
                     },
                     child: Text(
@@ -142,7 +151,9 @@ class _EditTaskState extends State<EditTask> {
   }
 
   Future<void> updateTask(Task task) {
-    return FirebaseUtils.getTaskCollection().doc(task.id).update({
+    return FirebaseUtils.getTaskCollection(authProvider.currentUser!.id!)
+        .doc(task.id)
+        .update({
       'title': titleController!.value.text,
       'description': descriptionController!.value.text,
     });

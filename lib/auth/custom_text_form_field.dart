@@ -10,7 +10,6 @@ class CustomTextFormField extends StatelessWidget {
   int minLines;
   String? Function(String?)? validation;
   bool isobscureText;
-  bool isPasswordVisible = false;
 
   CustomTextFormField({
     required this.labelText,
@@ -34,7 +33,6 @@ class CustomTextFormField extends StatelessWidget {
             color: provider.isDarkMode()
                 ? MyTheme.wightColor
                 : MyTheme.blackColor),
-        suffixIcon: Icon(isPasswordVisible ? Icons.remove_red_eye : null),
       ),
       obscureText: isobscureText,
       maxLines: maxLines,

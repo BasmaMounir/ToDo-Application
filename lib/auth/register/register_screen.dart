@@ -1,9 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_application/Home/Dialogues/dialog_utils.dart';
+import 'package:to_do_application/Home/home_screen.dart';
+import 'package:to_do_application/ModelClass/myUser.dart';
+import 'package:to_do_application/Providers/authProviders.dart';
 import 'package:to_do_application/auth/custom_text_form_field.dart';
-import 'package:to_do_application/auth/login/login.dart';
 import 'package:to_do_application/auth/my_validation.dart';
+import 'package:to_do_application/firebase_utils.dart';
+
 import '../../Providers/settings-provider.dart';
 import '../../my_theme.dart';
 
@@ -66,6 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   CustomTextFormField(
                     controller: PasswordController,
+                    isobscureText: true,
                     validation: (text) {
                       if (text == null || text.trim().isEmpty) {
                         return "enter valid password";
@@ -78,6 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   CustomTextFormField(
                     controller: PasswordConfirmationController,
+                    isobscureText: true,
                     validation: (text) {
                       if (text == null || text.trim().isEmpty) {
                         return "enter valid email";
@@ -104,14 +111,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         "Create Account",
                         style: TextStyle(fontSize: 24, color: Colors.white),
                       )),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, LoginScreen.routeName);
-                      },
-                      child: Text(
-                        "Already have Account",
-                      ))
                 ],
               ),
             ),
@@ -120,26 +119,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void register() async {
-    if (formKey.currentState?.validate() == false) {
-      return;
-    }
-    try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: EmailController.text.trim(),
-        password: PasswordController.text.trim(),
-      );
-      print('successfully register');
-      print('User id ==> ${credential.user?.uid}');
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+    if (formKey.currentState?.validate() == true) {
+      try {
+        DialogUtils.Loading(context);
+        final credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: EmailController.text.trim(),
+          password: PasswordController.text.trim(),
+        );
+        MyUser myUser = MyUser(
+            id: credential.user?.uid ?? '',
+            name: fullNameController.text,
+            email: EmailController.text);
+        var authProvider = Provider.of<AuthProviders>(context, listen: false);
+        authProvider.updateUser(myUser);
+        await FirebaseUtils.AddUserToFireStore(myUser);
+        DialogUtils.hideDialog(context);
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          DialogUtils.hideDialog(context);
+          DialogUtils.showMessage(context,
+              message: 'The password provided is too weak');
+        } else if (e.code == 'email-already-in-use') {
+          DialogUtils.hideDialog(context);
+          DialogUtils.showMessage(context,
+              message: 'The account already exists for that email');
+        }
+      } catch (e) {
+        DialogUtils.hideDialog(context);
+        DialogUtils.showMessage(context, message: '$e');
       }
-    } catch (e) {
-      print(e);
     }
-    //Navigator.pushNamed(context, HomeScreen.routeName);
+    return;
   }
 }

@@ -3,28 +3,28 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_application/ModelClass/task.dart';
+import 'package:to_do_application/Providers/authProviders.dart';
 import 'package:to_do_application/Providers/list_provider.dart';
 import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/firebase_utils.dart';
 import 'package:to_do_application/my_theme.dart';
 
-class ItemTaskList extends StatefulWidget {
+import '../Dialogues/dialog_utils.dart';
+
+class ItemTaskList extends StatelessWidget {
   Task tasks;
 
   ItemTaskList({super.key, required this.tasks});
 
-  @override
-  State<ItemTaskList> createState() => _ItemTaskListState();
-}
-
-class _ItemTaskListState extends State<ItemTaskList> {
   //bool pressed = false;
-  late var listProvider;
+  //late var listProvider;
 
   @override
   Widget build(BuildContext context) {
-    listProvider = Provider.of<ListProvider>(context);
+    var listProvider = Provider.of<ListProvider>(context);
     var provider = Provider.of<SettingsProvider>(context);
+    var authProvider = Provider.of<AuthProviders>(context);
+
     return Container(
       margin: const EdgeInsets.all(8),
       child: Slidable(
@@ -35,9 +35,18 @@ class _ItemTaskListState extends State<ItemTaskList> {
             SlidableAction(
               borderRadius: BorderRadius.circular(20),
               onPressed: (context) {
-                FirebaseUtils.deleteTaskFromFireStore(widget.tasks)
-                    .timeout(const Duration(milliseconds: 500), onTimeout: () {
-                  listProvider.getAllTasksFromFireStore();
+                FirebaseUtils.deleteTaskFromFireStore(
+                        tasks, authProvider.currentUser!.id!)
+                    .then((value) {
+                  DialogUtils.showMessage(context,
+                      message: 'Task Deleted Successfully');
+                  listProvider
+                      .getAllTasksFromFireStore(authProvider.currentUser!.id!);
+                }).timeout(const Duration(milliseconds: 500), onTimeout: () {
+                  DialogUtils.showMessage(context,
+                      message: 'Task Deleted Successfully');
+                  listProvider
+                      .getAllTasksFromFireStore(authProvider.currentUser!.id!);
                 });
               },
               backgroundColor: MyTheme.redColor,
@@ -61,7 +70,7 @@ class _ItemTaskListState extends State<ItemTaskList> {
                 width: 5,
                 height: MediaQuery.of(context).size.height * 0.1,
                 decoration: BoxDecoration(
-                    color: widget.tasks.isDone == true
+                    color: tasks.isDone == true
                         ? MyTheme.greenColor
                         : MyTheme.primaryColor,
                     borderRadius: BorderRadius.circular(25)),
@@ -74,8 +83,8 @@ class _ItemTaskListState extends State<ItemTaskList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.tasks.title ?? '',
-                    style: widget.tasks.isDone == true
+                    tasks.title ?? '',
+                    style: tasks.isDone == true
                         ? Theme.of(context)
                             .textTheme
                             .titleLarge!
@@ -86,9 +95,7 @@ class _ItemTaskListState extends State<ItemTaskList> {
                             .copyWith(color: MyTheme.primaryColor),
                   ),
                   Text(
-                    widget.tasks.isDone == true
-                        ? ''
-                        : widget.tasks.description ?? '',
+                    tasks.isDone == true ? '' : tasks.description ?? '',
                     style: TextStyle(
                         fontSize: 18,
                         color: provider.isDarkMode()
@@ -97,9 +104,9 @@ class _ItemTaskListState extends State<ItemTaskList> {
                   ),
                 ],
               )),
-              widget.tasks.isDone == true
+              tasks.isDone == true
                   ? Text('${AppLocalizations.of(context)!.done}!',
-                      style: widget.tasks.isDone == true
+                      style: tasks.isDone == true
                           ? Theme.of(context)
                               .textTheme
                               .titleLarge!
@@ -107,9 +114,14 @@ class _ItemTaskListState extends State<ItemTaskList> {
                           : null)
                   : InkWell(
                       onTap: () {
-                        updateTask(widget.tasks).timeout(
-                            const Duration(milliseconds: 500), onTimeout: () {
-                          listProvider.getAllTasksFromFireStore();
+                        updateTask(tasks, context)
+                            .then((value) =>
+                                listProvider.getAllTasksFromFireStore(
+                                    authProvider.currentUser!.id!))
+                            .timeout(const Duration(milliseconds: 500),
+                                onTimeout: () {
+                          listProvider.getAllTasksFromFireStore(
+                              authProvider.currentUser!.id!);
                         });
                       },
                       child: Container(
@@ -132,8 +144,10 @@ class _ItemTaskListState extends State<ItemTaskList> {
     );
   }
 
-  Future<void> updateTask(Task task) {
-    return FirebaseUtils.getTaskCollection()
+  Future<void> updateTask(Task task, BuildContext context) {
+    var authProvider = Provider.of<AuthProviders>(context, listen: false);
+
+    return FirebaseUtils.getTaskCollection(authProvider.currentUser!.id!)
         .doc(task.id)
         .update({'isDone': true});
   }
