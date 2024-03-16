@@ -9,8 +9,6 @@ import 'package:to_do_application/Providers/settings-provider.dart';
 import 'package:to_do_application/firebase_utils.dart';
 import 'package:to_do_application/my_theme.dart';
 
-import '../Dialogues/dialog_utils.dart';
-
 class ItemTaskList extends StatelessWidget {
   Task tasks;
 
@@ -38,13 +36,13 @@ class ItemTaskList extends StatelessWidget {
                 FirebaseUtils.deleteTaskFromFireStore(
                         tasks, authProvider.currentUser!.id!)
                     .then((value) {
-                  DialogUtils.showMessage(context,
-                      message: 'Task Deleted Successfully');
+                  // DialogUtils.showMessage(context,
+                  //     message: 'Task Deleted Successfully');
                   listProvider
                       .getAllTasksFromFireStore(authProvider.currentUser!.id!);
                 }).timeout(const Duration(milliseconds: 500), onTimeout: () {
-                  DialogUtils.showMessage(context,
-                      message: 'Task Deleted Successfully');
+                  // DialogUtils.showMessage(context,
+                  //     message: 'Task Deleted Successfully');
                   listProvider
                       .getAllTasksFromFireStore(authProvider.currentUser!.id!);
                 });

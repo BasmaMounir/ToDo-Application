@@ -1,5 +1,6 @@
 {
 "appTitle" : "To Do List",
+"welcome" :"Welcome",
 "listTab":"List",
 "settingsTab":"Settings",
 "language":"Language",

@@ -125,14 +125,14 @@ class _EditTaskState extends State<EditTask> {
                         listProvider.getAllTasksFromFireStore(
                             authProvider.currentUser!.id!);
                         DialogUtils.showMessage(context,
-                            message: 'Task Added Successfully');
+                            message: 'Task Updated Successfully');
                       }).timeout(const Duration(milliseconds: 100),
                           onTimeout: () {
-                        Navigator.pop(context);
+                            Navigator.pop(context);
                         listProvider.getAllTasksFromFireStore(
                             authProvider.currentUser!.id!);
                         DialogUtils.showMessage(context,
-                            message: 'Task Added Successfully');
+                            message: 'Task Updated Successfully');
                       });
                     },
                     child: Text(

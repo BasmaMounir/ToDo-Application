@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: AnimatedTextKit(
           animatedTexts: [
             TypewriterAnimatedText(
-                'Welcome ${authProvider.currentUser!.name!}'),
+                '${AppLocalizations.of(context)!.welcome} ${authProvider.currentUser!.name!}'),
           ],
           onTap: () {
             print("Tap Event");
